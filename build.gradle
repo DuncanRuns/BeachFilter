@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group 'me.duncanruns.beachfilter'
+version '1.0.0'
+
+apply plugin: 'java'
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    implementation 'com.github.KaptainWutax:MCUtils:1e5785a648a04454461ef02ee27cbc63e3599bff'
+    implementation 'com.github.KaptainWutax:BiomeUtils:166f1757be'
+    implementation 'com.github.KaptainWutax:TerrainUtils:605c46b94a5126df55bd347b82f277af443909c9'
+    implementation 'com.github.KaptainWutax:FeatureUtils:58bf7a94026ffc5c691605c953ef0b25a26ca471'
+
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'com.google.code.gson:gson:2.9.0'
+}
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes(
+                'Main-Class': 'me.duncanruns.beachfilter.runner.FSGBeach'
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    from sourceSets.main.allSource
+}
