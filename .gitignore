@@ -22,3 +22,6 @@ gradle-app.setting
 
 #Idea
 .idea
+*.iml
+*.ipr
+*.iws
