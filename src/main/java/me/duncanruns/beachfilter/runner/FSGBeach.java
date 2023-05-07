@@ -16,8 +16,8 @@ public class FSGBeach {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         FilterResult result = findSeed();
-        System.out.println("Seed:\n" + result.getWorldSeed());
-        System.out.println("\nToken\n" + result.toToken());
+        System.out.println("Seed: " + result.getWorldSeed());
+        System.out.println("Token: " + result.toToken());
     }
 
     public static FilterResult findSeed() throws IOException, NoSuchAlgorithmException {
