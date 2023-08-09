@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "beachfilter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "BeachFilter",
   "description": "Small library to filter for beaches. This fabric.mod.json is needed to be included in the BeachFilter Mod.",
   "authors": [
