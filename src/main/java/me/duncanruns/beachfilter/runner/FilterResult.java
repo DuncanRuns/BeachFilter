@@ -6,12 +6,14 @@ public class FilterResult {
     private final long startTime;
     private final int checks;
     private final int round;
+    private final long randomFactor;
 
-    public FilterResult(long worldSeed, long startTime, int checks, int round) {
+    public FilterResult(long worldSeed, long startTime, int checks, int round, long randomFactor) {
         this.worldSeed = worldSeed;
         this.startTime = startTime;
         this.checks = checks;
         this.round = round;
+        this.randomFactor = randomFactor;
     }
 
     public long getStartTime() {
@@ -27,7 +29,7 @@ public class FilterResult {
     }
 
     public String toToken() {
-        return Long.toHexString(startTime) + "g" + Long.toHexString(worldSeed) + "g" + Integer.toHexString(checks) + "g" + Integer.toHexString(round);
+        return Long.toHexString(startTime) + "g" + Long.toHexString(worldSeed) + "g" + Integer.toHexString(checks) + "g" + Integer.toHexString(round) + "g" + Long.toHexString(randomFactor);
     }
 
     @Override

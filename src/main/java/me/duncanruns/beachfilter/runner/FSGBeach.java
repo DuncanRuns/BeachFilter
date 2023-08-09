@@ -9,15 +9,22 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Random;
 
 public class FSGBeach {
+    private static final Random RANDOM = new SecureRandom();
 
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
-        FilterResult result = findSeed();
-        System.out.println("Seed: " + result.getWorldSeed());
-        System.out.println("Token: " + result.toToken());
+    public static void main(String[] args) {
+
+        try {
+            FilterResult result = findSeed();
+            System.out.println("Seed: " + result.getWorldSeed());
+            System.out.println("Token: " + result.toToken());
+        } catch (IOException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static FilterResult findSeed() throws IOException, NoSuchAlgorithmException {
@@ -26,8 +33,8 @@ public class FSGBeach {
         DRandInfo dRandInfo = new DRandRequester().get("latest");
         Instant instant = Instant.now();
         long startTime = instant.getEpochSecond() * (1_000_000_000) + instant.getNano();
-        String seedString = startTime + dRandInfo.randomness;
-
+        long randomFactor = RANDOM.nextLong();
+        String seedString = (startTime + randomFactor) + dRandInfo.randomness;
 
         // Java SHA256
         // https://stackoverflow.com/questions/5531455/how-to-hash-some-string-with-sha256-in-java
@@ -44,7 +51,7 @@ public class FSGBeach {
             checks++;
             long seed = random.nextLong() + 1;
             if (BeachFilter.test(seed, filterForest)) {
-                return new FilterResult(seed, startTime, checks, dRandInfo.round);
+                return new FilterResult(seed, startTime, checks, dRandInfo.round, randomFactor);
             }
         }
     }
